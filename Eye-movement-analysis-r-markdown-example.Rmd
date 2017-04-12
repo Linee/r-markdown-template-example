@@ -225,6 +225,11 @@ plot_regress_prob <- ggplot(data,aes(x=CASE, y=FIRST_PASS_REGRESSION, fill=CASE)
 grid.arrange(plot_gaze, plot_total, plot_regress_prob, ncol=2, respect=TRUE)
 ```
 
+```{r}
+library(cowplot)
+plot_grid(plot_gaze, plot_total, plot_regress_prob, labels = c("A", "B", "C"))
+```
+
 ### Summary:
 The participant with aphasia shows an increase in reading times and in first-
 pass regressions.
