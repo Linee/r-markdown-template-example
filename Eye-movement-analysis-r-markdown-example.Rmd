@@ -23,7 +23,7 @@ in different ways. Readers varied in gaze duration and first-pass regressions in
 particular, which may point to differences in the phase of lexical access.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache=TRUE)
+#knitr::opts_chunk$set(cache=TRUE)
 ```
 
 ### Load libraries
@@ -229,10 +229,6 @@ plot_regress_prob <- ggplot(data,aes(x=CASE, y=FIRST_PASS_REGRESSION, fill=CASE)
 ```
 
 ```{r}
-grid.arrange(plot_gaze, plot_total, plot_regress_prob, ncol=2, respect=TRUE)
-```
-
-```{r}
 library(cowplot)
 plot_grid(plot_gaze, plot_total, plot_regress_prob)
 ```
@@ -260,7 +256,7 @@ ggplot(data, aes(x=PREDICTABILITY, y=GAZE_DURATION, group=interaction(CASE, FREQ
   theme(legend.title = element_text(size=11)) +
   theme(legend.text = element_text(size = 11)) +
   theme(legend.position="right") 
- line_gaze
+ #line_gaze
 ```
 
 ### Total fixation duration
@@ -303,10 +299,6 @@ ggplot(data, aes(x=PREDICTABILITY, y=FIRST_PASS_REGRESSION, group=interaction(CA
   theme(legend.text = element_text(size = 11)) +
   theme(legend.position="right")
 #line_regression
-```
-
-```{r}
-plot_grid(line_gaze, line_total, line_regression)
 ```
 
 ```{r}
