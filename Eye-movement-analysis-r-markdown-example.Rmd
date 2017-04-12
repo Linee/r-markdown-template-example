@@ -22,22 +22,22 @@ the NHI. Both readers were influenced by word frequency and predictability, but
 in different ways. Readers varied in gaze duration and first-pass regressions in
 particular, which may point to differences in the phase of lexical access.
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
 
 ### Load libraries
-```{r}
-library(gdata) # used
-#library(psych)
-#library(compute.es)
-library(ggplot2) # used
-#library(multcomp)
-library(pastecs) # used
-#library(ez)
-#library(Hmisc)
-library(reshape) # used
-library(gridExtra) #used
-library(lme4) #used
-library(lmerTest) #used
+```{r echo=TRUE}
+library(gdata) 
+library(ggplot2) 
+library(pastecs) 
+library(reshape) 
+library(gridExtra) 
+library(lme4) 
+library(lmerTest) 
+
 ```
+
 
 ```{r}
 #set working directory
@@ -81,7 +81,7 @@ rawdata=read.xls("EMdataexample.xlsx",
 ```
 
 ```{r}
-rawdata
+# rawdata
 ```
 
 ## Create a new dataframe for analysis
@@ -94,7 +94,7 @@ data <-rawdata
 str(data)
 ```
 
-```python
+```{r}
 #str(data)
 #summary(data) 
 #head(data[, 1:10])
@@ -105,27 +105,22 @@ str(data)
 ## Preparing variables we are interested in:
 ### Create variables as numeric
 
-
-```python
+```{r}
 data$TOTAL_DURATION  <-as.numeric(data$TOTAL_DURATION)
 data$GAZE_DURATION  <-as.numeric(data$GAZE_DURATION)
 data$FIRST_PASS_REGRESSION <-as.numeric(data$FIRST_PASS_REGRESSION)
-
 ```
 
 ### Check whether the data frame inlcudes NAs
-
-
-```python
-#which(is.na(data$GAZE_DURATION))
-#which(is.na(data$TOTAL_DURATION))
-#which(is.na(data$FIRST_PASS_REGRESSION))
-#which(is.na(data$FIRST_PAST_FIXATION))
+```{r}
+which(is.na(data$GAZE_DURATION))
+which(is.na(data$TOTAL_DURATION))
+which(is.na(data$FIRST_PASS_REGRESSION))
+which(is.na(data$FIRST_PAST_FIXATION))
 ```
 
 ### Exclude the NAs
-
-```python
+```{r}
 data <- data[(!is.na(data$GAZE_DURATION)),]
 data <- data[(!is.na(data$TOTAL_DURATION)),]
 data <- data[(!is.na(data$FIRST_PASS_REGRESSION)),]
@@ -133,26 +128,20 @@ data <- data[(!is.na(data$FIRST_PAST_FIXATION)),]
 ```
 
 ### Check whether it worked ok
-
-```python
-##which(is.na(data$GAZE_DURATION))
-##which(is.na(data$TOTAL_DURATION))
-##which(is.na(data$FIRST_PASS_REGRESSION))
-##which(is.na(data$FIRST_PAST_FIXATION))
+```{r}
+which(is.na(data$GAZE_DURATION))
+which(is.na(data$TOTAL_DURATION))
+which(is.na(data$FIRST_PASS_REGRESSION))
+which(is.na(data$FIRST_PAST_FIXATION))
 ```
 
 ### Rename GROUP as CASE - because this example dataset is restricted to the
 comparison of two cases
 
-
-```python
+```{r}
 data <- rename(data, c(GROUP="CASE"))
-
 ```
 
-```python
-# data
-```
 
 ## Data analysis
 
@@ -172,31 +161,25 @@ regression
 
 ### Gaze duration as a measure of TRIAL TYPE and CASE
 
-
-
-```python
-# by(data$GAZE_DURATION, list(data$TRIAL_TYPE, data$CASE), stat.desc, basic= FALSE)
+```{r}
+#by(data$GAZE_DURATION, list(data$TRIAL_TYPE, data$CASE), stat.desc, basic= FALSE)
 ```
 
 ### Total fixation duration as a measure of TRIAL TYPE and CASE
 
-
-
-```python
+```{r}
 # by(data$TOTAL_DURATION, list(data$TRIAL_TYPE, data$CASE), stat.desc, basic= FALSE)
 ```
 
 ### First-pass regression as a measure of TRIAL TYPE and CASE
 
-
-```python
+```{r}
 # by(data$FIRST_PASS_REGRESSION, list(data$TRIAL_TYPE, data$CASE), stat.desc, basic= FALSE)
 ```
 
 ## Plotting - Eye movements independent of trial types
 ### Gaze duration
-
-```python
+```{r}
 plot_gaze <- ggplot(data,aes(x=CASE, y=GAZE_DURATION, fill=CASE)) +  
   stat_summary(fun.data=mean_cl_normal,position=position_dodge(0.95),geom="errorbar") +
   stat_summary(fun.y=mean,position=position_dodge(width=0.95),geom="bar") +
@@ -210,8 +193,7 @@ plot_gaze <- ggplot(data,aes(x=CASE, y=GAZE_DURATION, fill=CASE)) +
 ```
 
 ### Total fixation duration
-
-```python
+```{r}
 plot_total <- ggplot(data,aes(x=CASE, y=TOTAL_DURATION, fill=CASE)) +  
   stat_summary(fun.data=mean_cl_normal,position=position_dodge(0.95),geom="errorbar") +
   stat_summary(fun.y=mean,position=position_dodge(width=0.95),geom="bar") +
@@ -224,10 +206,9 @@ plot_total <- ggplot(data,aes(x=CASE, y=TOTAL_DURATION, fill=CASE)) +
 #plot_total
 ```
 
+
 ### First-pass regression
-
-
-```python
+```{r}
 plot_regress_prob <- ggplot(data,aes(x=CASE, y=FIRST_PASS_REGRESSION, fill=CASE)) +  
   stat_summary(fun.data=mean_cl_normal,position=position_dodge(0.95),geom="errorbar") +
   stat_summary(fun.y=mean,position=position_dodge(width=0.95),geom="bar") +
@@ -240,7 +221,7 @@ plot_regress_prob <- ggplot(data,aes(x=CASE, y=FIRST_PASS_REGRESSION, fill=CASE)
 #plot_regress_prob
 ```
 
-```python
+```{r}
 grid.arrange(plot_gaze, plot_total, plot_regress_prob, ncol=2, respect=TRUE)
 ```
 
@@ -248,12 +229,10 @@ grid.arrange(plot_gaze, plot_total, plot_regress_prob, ncol=2, respect=TRUE)
 The participant with aphasia shows an increase in reading times and in first-
 pass regressions.
 
-
-
 ## Plotting - Eye movements as a function of trial type
 ### Gaze duration
 
-```python
+```{r}
 line_gaze <-
 ggplot(data, aes(x=PREDICTABILITY, y=GAZE_DURATION, group=interaction(CASE, FREQUENCY), colour=CASE, linetype=FREQUENCY)) +
   stat_summary(fun.data=mean_cl_normal, geom="errorbar", position=position_dodge(width=0.10), width=0.5)+
@@ -270,13 +249,11 @@ ggplot(data, aes(x=PREDICTABILITY, y=GAZE_DURATION, group=interaction(CASE, FREQ
   theme(legend.text = element_text(size = 13)) +
   theme(legend.position="right")
 # line_gaze
-
 ```
 
 ### Total fixation duration
 
-
-```python
+```{r}
 line_total <-
 ggplot(data, aes(x=PREDICTABILITY, y=TOTAL_DURATION, group=interaction(CASE, FREQUENCY), colour=CASE, linetype=FREQUENCY)) +
   stat_summary(fun.data=mean_cl_normal, geom="errorbar", position=position_dodge(width=0.10), width=0.5)+
@@ -297,7 +274,7 @@ ggplot(data, aes(x=PREDICTABILITY, y=TOTAL_DURATION, group=interaction(CASE, FRE
 
 ### First-pass regression
 
-```python
+```{r}
 line_regression <-
 ggplot(data, aes(x=PREDICTABILITY, y=FIRST_PASS_REGRESSION, group=interaction(CASE, FREQUENCY), colour=CASE, linetype=FREQUENCY)) +
   stat_summary(fun.data=mean_cl_normal, geom="errorbar", position=position_dodge(width=0.10), width=0.5)+
@@ -316,43 +293,40 @@ ggplot(data, aes(x=PREDICTABILITY, y=FIRST_PASS_REGRESSION, group=interaction(CA
 #line_regression
 ```
 
-```python
+```{r}
 grid.arrange(line_gaze, line_total, line_regression, nrow=3)
-
 ```
 
 ### Linear mixed model analysis of effects of word frequency and predictability
 
-
 ### Gaze duration
-
-```python
+```{r}
 model_simple = lmer (GAZE_DURATION ~ CASE + (1 | ITEM), 
                        data=data, REML=FALSE)
 ##summary(model_simple)
 ```
 
-```python
+```{r}
 model_a = lmer (GAZE_DURATION ~CASE+FREQUENCY + (1 | ITEM), 
                        data=data, REML=FALSE)
 ```
 
-```python
+```{r}
 anova(model_simple, model_a)
 # not significant so FREQUENCY does not improve model fit
 ```
 
-```python
+```{r}
 model_b = lmer (GAZE_DURATION ~CASE+PREDICTABILITY + (1 | ITEM), 
                        data=data, REML=FALSE)
 ```
 
-```python
+```{r}
 anova(model_simple, model_b)
 # not significant so PREDICTABILITY does not improve model fit
 ```
 
-```python
+```{r}
 # Checking for interaction between CASE and PREDICTABILITY
 model_c = lmer (GAZE_DURATION~CASE + PREDICTABILITY + (1 | ITEM), 
                      data=data, REML=FALSE)
@@ -361,7 +335,7 @@ model_d = lmer (GAZE_DURATION~CASE * PREDICTABILITY + (1 | ITEM),
 anova(model_c, model_d) # not significant so no interaction between CASE and PREDICTABIITY 
 ```
 
-```python
+```{r}
 # Checking for interaction between CASE and FREQUENCY
 model_e = lmer (GAZE_DURATION~CASE + FREQUENCY + (1 | ITEM), 
                      data=data, REML=FALSE)
@@ -371,34 +345,34 @@ anova(model_e, model_f) # there is a significant interaction between CASE and FR
 ```
 
 ### Total duration
-
-```python
+```{r}
 model_TD_simple = lmer (TOTAL_DURATION ~CASE + (1 | ITEM), 
                        data=data, REML=FALSE)
 # summary(model_TD_simple)
 ```
 
-```python
+```{r}
 model_TD_a = lmer (TOTAL_DURATION ~CASE+FREQUENCY + (1 | ITEM), 
                        data=data, REML=FALSE)
 ```
 
-```python
+
+```{r}
 anova(model_TD_simple, model_TD_a)
 # not significant so FREQUENCY does not improve model fit
 ```
 
-```python
+```{r}
 model_TD_b = lmer (TOTAL_DURATION ~CASE+PREDICTABILITY + (1 | ITEM), 
                        data=data, REML=FALSE)
 ```
 
-```python
+```{r}
 anova(model_TD_simple, model_TD_b)
 # significant so PREDICTABILITY does improve model fit
 ```
 
-```python
+```{r}
 # Checking for interaction between CASE and PREDICTABILITY
 model_TD_c = lmer (TOTAL_DURATION~CASE + PREDICTABILITY + (1 | ITEM), 
                      data=data, REML=FALSE)
@@ -407,7 +381,7 @@ model_TD_d = lmer (TOTAL_DURATION~CASE * PREDICTABILITY + (1 | ITEM),
 anova(model_TD_c, model_TD_d) # not significant so no interaction between CASE and PREDICTABIITY 
 ```
 
-```python
+```{r}
 # Checking for interaction between CASE and FREQUENCY
 model_TD_e = lmer (TOTAL_DURATION~CASE + FREQUENCY + (1 | ITEM), 
                      data=data, REML=FALSE)
@@ -418,33 +392,33 @@ anova(model_TD_e, model_TD_f) # no significant interaction between CASE and FREQ
 
 ### First-pass regression
 
-```python
+```{r}
 model_R_simple = lmer (FIRST_PASS_REGRESSION ~CASE + (1 | ITEM), 
                        data=data, REML=FALSE)
 # summary(model_R_simple)
 ```
 
-```python
+```{r}
 model_R_a = lmer (FIRST_PASS_REGRESSION ~CASE+FREQUENCY + (1 | ITEM), 
                        data=data, REML=FALSE)
 ```
 
-```python
+```{r}
 anova(model_R_simple, model_R_a)
 # not significant so FREQUENCY does not improve model fit
 ```
 
-```python
+```{r}
 model_R_b = lmer (FIRST_PASS_REGRESSION ~CASE+PREDICTABILITY + (1 | ITEM), 
                        data=data, REML=FALSE)
 ```
 
-```python
+```{r}
 anova(model_R_simple, model_R_b)
 # not significant so PREDICTABILITY does not improve model fit
 ```
 
-```python
+```{r}
 # Checking for interaction between CASE and PREDICTABILITY
 model_R_c = lmer (FIRST_PASS_REGRESSION~CASE + PREDICTABILITY + (1 | ITEM), 
                      data=data, REML=FALSE)
@@ -453,7 +427,8 @@ model_R_d = lmer (FIRST_PASS_REGRESSION~CASE * PREDICTABILITY + (1 | ITEM),
 anova(model_R_c, model_R_d) #  not significant so there is no interaction between CASE and PREDICTABIITY 
 ```
 
-```python
+
+```{r}
 # Checking for interaction between CASE and FREQUENCY
 model_R_e = lmer (FIRST_PASS_REGRESSION~CASE + FREQUENCY + (1 | ITEM), 
                      data=data, REML=FALSE)
@@ -462,37 +437,15 @@ model_R_f = lmer (FIRST_PASS_REGRESSION~CASE * FREQUENCY + (1 | ITEM),
 anova(model_R_e, model_R_f) # no significant interaction between CASE and FREQUENCY 
 ```
 
-
 ### Summary:
 
-Eye movements by both participants are influenced by word frequency and
-contextual
-predictability, but in inconsistent ways. The neurologically healthy participant
-demonstrates a word frequency effect in the predicted direction for gaze
-duration
-(increase in gaze duration for low frequency words), and a predictability effect
-in
-the expected direction for total duration (prolonged total fixation durations on
-unpredictable words). The participant with aphasia showed a word frequency
-effect for
-gaze duration that was in the non-predicted direction (longer gaze duration for
-high
-frequency words), but a predictability effect for total fixation duration in the
-expected direction and in parallel to the neurologically healthy participant.
-Both
-participants seemed to be differently affected by word frequency and
-predictability
-with respect to first-pass regressions. The neurologically healthy particiapnts
-was
-more likely to regress out of high frequency words if they were unpredictable
-than low
-frequency words. The participant with aphasia, however, regressed more out of
-unpredictable
-low frequency words than unpredictable high frequency words. However, the models
-did not
-find that this difference between participants was significant.
+Eye movements by both participants are influenced by word frequency and contextual predictability, 
+but in inconsistent ways. The neurologically healthy participant demonstrates a word frequency 
+effect in the predicted direction for gaze duration (increase in gaze duration for low frequency words), and a predictability effect in the expected direction for total duration (prolonged total fixation durations on unpredictable words). The participant with aphasia showed a word frequency effect for 
+gaze duration that was in the non-predicted direction (longer gaze duration for high frequency words), 
+but a predictability effect for total fixation duration in the expected direction and in parallel to 
+the neurologically healthy participant. Both participants seemed to be differently affected by word frequency and predictability with respect to first-pass regressions. The neurologically healthy particiapnts was more likely to regress out of high frequency words if they were unpredictable
+than low frequency words. The participant with aphasia, however, regressed more out of unpredictable 
+low frequency words than unpredictable high frequency words. However, the models did not find that 
+this difference between participants was significant.
 
-
-```python
-
-```

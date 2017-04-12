@@ -1,0 +1,83 @@
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Load libraries
+```{r, echo=TRUE}
+library(gdata) # used
+#library(psych)
+#library(compute.es)
+library(ggplot2) # used
+#library(multcomp)
+library(pastecs) # used
+#library(ez)
+#library(Hmisc)
+library(reshape) # used
+library(gridExtra) #used
+library(lme4) #used
+library(lmerTest) #used
+```
+
+```{r}
+#set working directory
+setwd("~/code/r-markdown-template-example")
+```
+
+## We are going to load data of the two participants from the reading study.
+### Open database:
+
+
+```{r}
+rawdata=read.xls("EMdataexample.xlsx", 
+                 na.strings = c("zero"),
+                 colClasses = c(
+                   'factor',  # RECORDING_SESSION_LABEL
+                   'factor',  # GROUP
+                   'factor',  # ID_OVERALL
+                   'factor',  # ID
+                   'factor',  # TRIAL_INDEX
+                   'factor',  # trial_type
+                   'factor',  # FREQUENCY
+                   'factor',  # PREDICTABILITY
+                   'factor',  # SENTENCE
+                   'factor',  # ITEM
+                   'factor',  # QUESTION
+                   'factor',  # CRITICAL_WORD
+                   'factor',  # ACCURACY   
+                   'character', # SINGLE_FIXATION_DURATION
+                   'character', # FIRST_FIXATION_DURATION
+                   'character', # GAZE_DURATION
+                   'character', # RIGHT_BOUNDED_DURATION
+                   'character', # REGRESSION_PATH_DURATION
+                   'character', # REREADING_DURATION
+                   'character', # TOTAL_DURATION
+                   'character',  # FIRST_PASS_REGRESSION
+                   'character',  # FIRST_PASS_FIXATION
+                   'factor',  # FIRST_PASS_MULTI_FIXATION 
+                   'character' #trials.fixated
+                 )
+)
+
+```
+
+## Create a new dataframe for analysis
+```{r}
+data <-rawdata
+```
+
+## Explore the data
+```{r}
+str(data)
+```
+
+```{r}
+str(data)
+summary(data) 
+#head(data[, 1:10])
+#tail(data[, 1:10])
+#dim(data)
+
+```
+
