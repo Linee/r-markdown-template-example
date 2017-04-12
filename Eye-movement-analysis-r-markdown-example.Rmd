@@ -27,7 +27,7 @@ knitr::opts_chunk$set(cache=TRUE)
 ```
 
 ### Load libraries
-```{r echo=TRUE}
+```{r message=FALSE}
 library(gdata) 
 library(ggplot2) 
 library(pastecs) 
