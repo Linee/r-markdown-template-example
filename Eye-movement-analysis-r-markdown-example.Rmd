@@ -458,3 +458,4 @@ than low frequency words. The participant with aphasia, however, regressed more 
 low frequency words than unpredictable high frequency words. However, the models did not find that 
 this difference between participants was significant.
 
+Made some experimental changes
